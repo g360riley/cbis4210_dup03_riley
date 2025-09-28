@@ -6,9 +6,14 @@ app = create_app()
 app.secret_key = 'your-secret'  # Replace with an environment
 
 # Register Blueprints
-from app.blueprints.examples import examples
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), 'PY Files'))
+from fleet import fleet
+from business import business
 
-app.register_blueprint(examples, url_prefix='/example')
+app.register_blueprint(fleet, url_prefix='/fleet')
+app.register_blueprint(business, url_prefix='/business')
 
 from . import routes
 

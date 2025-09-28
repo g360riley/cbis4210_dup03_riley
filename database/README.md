@@ -1,11 +1,13 @@
 # Database Setup
 
-This directory contains the database structure and sample data for the Flask starter kit.
+This directory contains the database structure and data for Sweet Dreams Ice Cream business management system.
 
 ## Files
 
-- `schema.sql` - Database table definitions and structure
-- `seed_data.sql` - Sample data for testing and development
+- `icecream_schema.sql` - Ice cream business database table definitions
+- `icecream_seed_data.sql` - Sample ice cream business data for testing
+- `foodtruck_schema.sql` - Food truck database tables
+- `foodtruck_seed_data.sql` - Sample food truck data
 
 ## Setup Instructions
 
@@ -15,36 +17,36 @@ This directory contains the database structure and sample data for the Flask sta
 - Database credentials configured in your `.env` file
 
 ### 2. Create Database Structure
-Run the schema file to create the required tables:
+Run the ice cream schema file to create the required tables:
 
 ```bash
-mysql -h [host] -u [username] -p [database_name] < database/schema.sql
+mysql -h [host] -u [username] -p [database_name] < database/icecream_schema.sql
 ```
 
-Or using your database management tool, execute the contents of `schema.sql`.
+Or using your database management tool, execute the contents of `icecream_schema.sql`.
 
 ### 3. Load Sample Data (Optional)
 To populate the database with sample records for testing:
 
 ```bash
-mysql -h [host] -u [username] -p [database_name] < database/seed_data.sql
+mysql -h [host] -u [username] -p [database_name] < database/icecream_seed_data.sql
 ```
 
 ## Database Structure
 
-### sample_table
-- `sample_table_id` (INT, Primary Key, Auto Increment)
-- `first_name` (VARCHAR(50), NOT NULL)
-- `last_name` (VARCHAR(50), NOT NULL) 
-- `date_of_birth` (DATE, NOT NULL)
-- `created_at` (TIMESTAMP, Default: Current timestamp)
-- `updated_at` (TIMESTAMP, Auto-update on modification)
+The ice cream business database includes tables for:
+- Ice cream trucks and fleet management
+- Product catalog and inventory
+- Customer management
+- Order tracking and sales
+- Route management
+- Driver information
 
 ## Notes
 
 - The schema includes helpful indexes for common query patterns
 - Timestamps are automatically managed by MySQL
-- Sample data includes 10 test records with realistic names and dates
+- Sample data includes realistic ice cream business data
 
 ## Environment Variables
 

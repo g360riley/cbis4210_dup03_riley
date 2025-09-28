@@ -2,25 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GCSU MIS Starter Kit</title>
+    <title>Sweet Dreams Ice Cream Trucks</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --gcsu-blue: #003399;
-            --gcsu-green: #006633;
-            --gcsu-light-blue: #e6f2ff;
-            --gcsu-light-green: #e6f7e6;
+            --ice-cream-pink: #FFB3E6;
+            --ice-cream-mint: #98E4D6;
+            --ice-cream-peach: #FFCC99;
+            --ice-cream-lavender: #DDA0DD;
+            --ice-cream-cream: #FFF8DC;
+            --ice-cream-strawberry: #FFB6C1;
+            --ice-cream-chocolate: #D2691E;
+            --ice-cream-vanilla: #FDF5E6;
         }
         
         body {
-            background: linear-gradient(135deg, var(--gcsu-light-blue) 0%, #ffffff 50%, var(--gcsu-light-green) 100%);
+            background: linear-gradient(135deg, var(--ice-cream-vanilla) 0%, #ffffff 50%, var(--ice-cream-cream) 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .navbar-gcsu {
-            background: linear-gradient(90deg, var(--gcsu-blue) 0%, var(--gcsu-green) 100%);
+        .navbar-icecream {
+            background: linear-gradient(90deg, var(--ice-cream-strawberry) 0%, var(--ice-cream-mint) 100%);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 1rem 0;
         }
@@ -68,22 +72,22 @@
         }
         
         .alert-success {
-            background: linear-gradient(45deg, var(--gcsu-green), #28a745);
+            background: linear-gradient(45deg, var(--ice-cream-mint), var(--ice-cream-peach));
             color: white;
         }
         
         .btn-primary {
-            background: linear-gradient(45deg, var(--gcsu-blue), var(--gcsu-green));
+            background: linear-gradient(45deg, var(--ice-cream-pink), var(--ice-cream-lavender));
             border: none;
             border-radius: 25px;
             padding: 0.5rem 1.5rem;
             font-weight: 500;
             transition: all 0.3s ease;
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 51, 153, 0.3);
+            box-shadow: 0 4px 8px rgba(255, 179, 230, 0.4);
         }
         
         .card {
@@ -98,7 +102,7 @@
         }
         
         h1, h2, h3 {
-            color: var(--gcsu-blue);
+            color: var(--ice-cream-chocolate);
         }
         
         .table {
@@ -108,7 +112,7 @@
         }
         
         .table thead th {
-            background: linear-gradient(90deg, var(--gcsu-blue), var(--gcsu-green));
+            background: linear-gradient(90deg, var(--ice-cream-strawberry), var(--ice-cream-mint));
             color: white;
             border: none;
             font-weight: 600;
@@ -116,9 +120,9 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-gcsu">
+    <nav class="navbar navbar-expand-lg navbar-icecream">
         <a class="navbar-brand" href="{{ url_for('index') }}">
-            <i class="fas fa-home me-2"></i>GCSU MIS Starter Kit
+            <i class="fas fa-ice-cream me-2"></i>Sweet Dreams Ice Cream
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto">
@@ -128,8 +132,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('examples.show_examples') }}">
-                        <i class="fas fa-database me-1"></i>Examples
+                    <a class="nav-link" href="{{ url_for('business.show_trucks') }}">
+                        <i class="fas fa-truck me-1"></i>Ice Cream Trucks
                     </a>
                 </li>
             </ul>

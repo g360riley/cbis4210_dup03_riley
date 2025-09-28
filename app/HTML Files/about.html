@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="text-center mb-4">
+            <i class="fas fa-ice-cream me-3" style="color: var(--ice-cream-pink);"></i>
+            About Sweet Dreams Ice Cream
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow-lg">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <i class="fas fa-ice-cream fa-4x mb-3" style="color: var(--ice-cream-mint);"></i>
+                    <h2 class="h3" style="color: var(--ice-cream-chocolate);">Our Story</h2>
+                </div>
+
+                <p class="lead mb-4">Sweet Dreams Ice Cream has been bringing joy to communities since 2015. What started as a single ice cream truck has grown into a fleet of mobile ice cream parlors, each one dedicated to creating magical moments and sweet memories.</p>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0" style="background: linear-gradient(45deg, var(--ice-cream-cream), var(--ice-cream-vanilla));">
+                            <div class="card-body text-center">
+                                <i class="fas fa-heart fa-2x mb-3" style="color: var(--ice-cream-strawberry);"></i>
+                                <h5 style="color: var(--ice-cream-chocolate);">Our Mission</h5>
+                                <p class="small">To spread happiness one scoop at a time, bringing premium ice cream experiences directly to your neighborhood.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0" style="background: linear-gradient(45deg, var(--ice-cream-mint), var(--ice-cream-peach));">
+                            <div class="card-body text-center">
+                                <i class="fas fa-leaf fa-2x mb-3" style="color: var(--ice-cream-chocolate);"></i>
+                                <h5 style="color: var(--ice-cream-chocolate);">Our Values</h5>
+                                <p class="small">Quality ingredients, eco-friendly practices, and supporting local communities wherever we serve.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="mb-3" style="color: var(--ice-cream-chocolate);"><i class="fas fa-star me-2" style="color: var(--ice-cream-peach);"></i>What Makes Us Special</h4>
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--ice-cream-mint);"></i>Premium, locally-sourced ingredients</li>
+                    <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--ice-cream-mint);"></i>Over 50 unique flavors and seasonal specialties</li>
+                    <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--ice-cream-mint);"></i>Custom ice cream cakes and catering services</li>
+                    <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--ice-cream-mint);"></i>Eco-friendly trucks with solar-powered freezers</li>
+                    <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--ice-cream-mint);"></i>Real-time truck tracking for our customers</li>
+                </ul>
+
+                <div class="row text-center mb-4">
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <h3 style="color: var(--ice-cream-pink);">15+</h3>
+                            <small class="text-muted">Ice Cream Trucks</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <h3 style="color: var(--ice-cream-mint);">50+</h3>
+                            <small class="text-muted">Unique Flavors</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <h3 style="color: var(--ice-cream-lavender);">10K+</h3>
+                            <small class="text-muted">Happy Customers</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded mb-4" style="background: linear-gradient(45deg, var(--ice-cream-vanilla), var(--ice-cream-cream));">
+                    <h5 style="color: var(--ice-cream-chocolate);"><i class="fas fa-map-marker-alt me-2" style="color: var(--ice-cream-strawberry);"></i>Find Us</h5>
+                    <p class="mb-2">Our trucks visit neighborhoods, parks, schools, and events throughout the city. Use our real-time tracking system to see which truck is closest to you!</p>
+                    <p class="mb-0"><strong>Operating Hours:</strong> Monday-Sunday, 11:00 AM - 9:00 PM</p>
+                </div>
+
+                <div class="text-center">
+                    <a href="{{ url_for('business.show_trucks') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-truck me-2"></i>Find Our Trucks
+                    </a>
+                    <a href="{{ url_for('business.show_products') }}" class="btn btn-lg" style="background: linear-gradient(45deg, var(--ice-cream-mint), var(--ice-cream-peach)); color: white; border: none; border-radius: 25px;">
+                        <i class="fas fa-ice-cream me-2"></i>View Menu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+    }
+
+    .bg-light {
+        background: linear-gradient(45deg, var(--ice-cream-vanilla), var(--ice-cream-cream)) !important;
+    }
+</style>
+{% endblock %}

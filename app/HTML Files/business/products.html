@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2><i class="fas fa-ice-cream me-3"></i>Ice Cream Menu</h2>
+    </div>
+    <div class="col-md-6 text-end">
+        <a href="{{ url_for('business.add_product') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Product
+        </a>
+        <a href="{{ url_for('business.dashboard') }}" class="btn btn-secondary">
+            <i class="fas fa-home"></i> Dashboard
+        </a>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <form method="GET" class="d-flex gap-3">
+            <select name="type" class="form-select" onchange="this.form.submit()">
+                <option value="">All Product Types</option>
+                {% for type in product_types %}
+                <option value="{{ type.product_type }}" {{ 'selected' if type.product_type == current_type }}>
+                    {{ type.product_type.title() }}
+                </option>
+                {% endfor %}
+            </select>
+            <input type="text" name="search" class="form-control" placeholder="Search products..."
+                   value="{{ search_query }}" onkeypress="if(event.keyCode==13) this.form.submit()">
+            <button type="submit" class="btn btn-outline-primary">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{{ url_for('business.show_products') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-refresh"></i> Clear Filters
+        </a>
+    </div>
+</div>
+
+{% if products %}
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header text-center product-type-{{ product.product_type }}">
+                <h5 class="mb-0 text-white">
+                    {% if product.product_type == 'scoop' %}
+                    <i class="fas fa-ice-cream"></i>
+                    {% elif product.product_type == 'bar' %}
+                    <i class="fas fa-popsicle"></i>
+                    {% elif product.product_type == 'sandwich' %}
+                    <i class="fas fa-cookie"></i>
+                    {% elif product.product_type == 'sundae' %}
+                    <i class="fas fa-glass-martini"></i>
+                    {% elif product.product_type == 'shake' %}
+                    <i class="fas fa-cocktail"></i>
+                    {% else %}
+                    <i class="fas fa-ice-cream"></i>
+                    {% endif %}
+                    {{ product.product_name }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-8">
+                        <strong class="text-primary">${{ "%.2f"|format(product.price) }}</strong>
+                    </div>
+                    <div class="col-4 text-end">
+                        <span class="badge bg-info">{{ product.product_type.title() }}</span>
+                    </div>
+                </div>
+
+                {% if product.flavor %}
+                <p class="mb-2">
+                    <i class="fas fa-palette text-success me-2"></i>
+                    <strong>{{ product.flavor }}</strong>
+                </p>
+                {% endif %}
+
+                {% if product.description %}
+                <p class="text-muted small mb-3">{{ product.description }}</p>
+                {% endif %}
+
+                <div class="row small mb-3">
+                    {% if product.calories %}
+                    <div class="col-6">
+                        <i class="fas fa-fire text-orange me-1"></i>{{ product.calories }} cal
+                    </div>
+                    {% endif %}
+                    <div class="col-6 text-end">
+                        <span class="badge bg-secondary">{{ product.available_trucks }} trucks</span>
+                    </div>
+                </div>
+
+                <!-- Dietary Information -->
+                <div class="d-flex flex-wrap gap-1 mb-3">
+                    {% if product.is_sugar_free %}
+                    <span class="badge bg-success"><i class="fas fa-leaf"></i> Sugar Free</span>
+                    {% endif %}
+                    {% if product.contains_nuts %}
+                    <span class="badge bg-warning"><i class="fas fa-exclamation-triangle"></i> Contains Nuts</span>
+                    {% endif %}
+                    {% if not product.contains_dairy %}
+                    <span class="badge bg-info"><i class="fas fa-seedling"></i> Dairy Free</span>
+                    {% endif %}
+                    {% if product.seasonal %}
+                    <span class="badge bg-purple"><i class="fas fa-snowflake"></i> Seasonal</span>
+                    {% endif %}
+                </div>
+
+                {% if product.avg_rating > 0 %}
+                <div class="text-center">
+                    <div class="stars mb-1">
+                        {% for i in range(1, 6) %}
+                        <i class="fas fa-star {{ 'text-warning' if i <= product.avg_rating else 'text-muted' }}"></i>
+                        {% endfor %}
+                    </div>
+                    <small class="text-muted">{{ product.review_count }} review{{ 's' if product.review_count != 1 }}</small>
+                </div>
+                {% endif %}
+            </div>
+            <div class="card-footer text-center">
+                <span class="badge bg-{{ 'success' if product.is_available else 'danger' }}">
+                    {{ 'Available' if product.is_available else 'Out of Stock' }}
+                </span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-ice-cream fa-4x text-muted mb-4"></i>
+                <h3 class="text-muted">No Products Found</h3>
+                {% if current_type or search_query %}
+                <p class="text-muted mb-4">Try adjusting your filters or search terms</p>
+                <a href="{{ url_for('business.show_products') }}" class="btn btn-outline-primary me-3">
+                    <i class="fas fa-refresh"></i> Clear Filters
+                </a>
+                {% else %}
+                <p class="text-muted mb-4">Start building your ice cream menu!</p>
+                {% endif %}
+                <a href="{{ url_for('business.add_product') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Ice Cream Product
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<style>
+    .product-type-scoop {
+        background: linear-gradient(45deg, var(--ice-cream-strawberry), var(--ice-cream-pink));
+    }
+    .product-type-bar {
+        background: linear-gradient(45deg, var(--ice-cream-mint), var(--ice-cream-peach));
+    }
+    .product-type-sandwich {
+        background: linear-gradient(45deg, var(--ice-cream-lavender), var(--ice-cream-pink));
+    }
+    .product-type-sundae {
+        background: linear-gradient(45deg, var(--ice-cream-peach), var(--ice-cream-vanilla));
+    }
+    .product-type-shake {
+        background: linear-gradient(45deg, var(--ice-cream-mint), var(--ice-cream-cream));
+    }
+    .product-type-cone {
+        background: linear-gradient(45deg, var(--ice-cream-strawberry), var(--ice-cream-lavender));
+    }
+
+    .badge.bg-purple {
+        background-color: #6f42c1 !important;
+    }
+
+    .text-orange {
+        color: #fd7e14 !important;
+    }
+
+    .stars {
+        font-size: 0.9em;
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+</style>
+{% endblock %}

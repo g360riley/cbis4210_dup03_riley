@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center">
+    <div class="card shadow-lg p-5 mb-5">
+        <h1 class="display-4 mb-3" style="color: var(--ice-cream-chocolate);">
+            <i class="fas fa-ice-cream me-3" style="color: var(--ice-cream-mint);"></i>Sweet Dreams Ice Cream
+        </h1>
+        <h2 class="h3 text-muted mb-4">Premium Mobile Ice Cream Experience</h2>
+
+        <p class="lead mb-4">Welcome to Sweet Dreams Ice Cream! We bring premium, artisanal ice cream directly to your neighborhood with our fleet of colorful ice cream trucks.</p>
+
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-10">
+                <p class="mb-0">Since 2015, Sweet Dreams has been creating magical moments and sweet memories throughout the community. Our commitment to quality ingredients, unique flavors, and exceptional service makes us the premier choice for mobile ice cream experiences.</p>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-truck fa-3x mb-3" style="color: var(--ice-cream-pink);"></i>
+                        <h5 class="card-title" style="color: var(--ice-cream-chocolate);">Mobile Service</h5>
+                        <p class="card-text">Our fleet of 15+ ice cream trucks brings delicious treats directly to your location.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-heart fa-3x mb-3" style="color: var(--ice-cream-strawberry);"></i>
+                        <h5 class="card-title" style="color: var(--ice-cream-chocolate);">Premium Quality</h5>
+                        <p class="card-text">Over 50 unique flavors made with locally-sourced, premium ingredients.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ url_for('business.show_trucks') }}" class="btn btn-primary btn-lg me-3">
+                <i class="fas fa-truck me-2"></i>Find Our Trucks
+            </a>
+            <a href="{{ url_for('about') }}" class="btn btn-outline-secondary btn-lg">
+                <i class="fas fa-info-circle me-2"></i>Learn More
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+    }
+
+    .btn-outline-secondary {
+        border-color: var(--ice-cream-chocolate);
+        color: var(--ice-cream-chocolate);
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: var(--ice-cream-chocolate);
+        border-color: var(--ice-cream-chocolate);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(210, 105, 30, 0.3);
+    }
+</style>
+
+{% endblock %}

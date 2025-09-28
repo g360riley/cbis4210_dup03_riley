@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="text-center mb-4">
+            <i class="fas fa-ice-cream me-3" style="color: var(--ice-cream-mint);"></i>
+            Sweet Dreams Ice Cream Business
+        </h1>
+    </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="row mb-5">
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-truck fa-2x mb-3" style="color: var(--ice-cream-pink);"></i>
+                <h4>{{ truck_stats.total_trucks }}</h4>
+                <p class="text-muted">Active Trucks</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-ice-cream fa-2x mb-3" style="color: var(--ice-cream-mint);"></i>
+                <h4>{{ product_stats.total_products }}</h4>
+                <p class="text-muted">Available Products</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-users fa-2x mb-3" style="color: var(--ice-cream-peach);"></i>
+                <h4>{{ customer_stats.total_customers }}</h4>
+                <p class="text-muted">Customers</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-dollar-sign fa-2x mb-3" style="color: var(--ice-cream-lavender);"></i>
+                <h4>${{ "%.2f"|format(revenue_stats.total_revenue) }}</h4>
+                <p class="text-muted">7-Day Revenue</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-rocket me-2"></i>Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <a href="{{ url_for('business.show_trucks') }}" class="btn btn-primary btn-lg w-100 mb-3">
+                            <i class="fas fa-truck fa-2x d-block mb-2"></i>
+                            Manage Trucks
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('business.show_products') }}" class="btn btn-success btn-lg w-100 mb-3">
+                            <i class="fas fa-ice-cream fa-2x d-block mb-2"></i>
+                            Ice Cream Menu
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('business.show_orders') }}" class="btn btn-warning btn-lg w-100 mb-3">
+                            <i class="fas fa-shopping-cart fa-2x d-block mb-2"></i>
+                            View Orders
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('business.analytics') }}" class="btn btn-info btn-lg w-100 mb-3">
+                            <i class="fas fa-chart-line fa-2x d-block mb-2"></i>
+                            Analytics
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Active Trucks -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-truck me-2"></i>Active Ice Cream Trucks</h5>
+            </div>
+            <div class="card-body">
+                {% if active_trucks %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Truck Name</th>
+                                <th>Driver</th>
+                                <th>Current Location</th>
+                                <th>Products</th>
+                                <th>Today's Revenue</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for truck in active_trucks %}
+                            <tr>
+                                <td>
+                                    <i class="fas fa-ice-cream text-primary me-2"></i>
+                                    <strong>{{ truck.truck_name }}</strong>
+                                    <br><small class="text-muted">{{ truck.truck_color }}</small>
+                                </td>
+                                <td>
+                                    <i class="fas fa-user me-2"></i>{{ truck.driver_name }}
+                                    <br><small class="text-muted">{{ truck.phone_number }}</small>
+                                </td>
+                                <td>
+                                    <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                                    {{ truck.current_location or 'Unknown' }}
+                                </td>
+                                <td>
+                                    <span class="badge bg-success">{{ truck.products_count }} items</span>
+                                </td>
+                                <td>
+                                    <strong class="text-success">${{ "%.2f"|format(truck.today_revenue) }}</strong>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#viewTruckModal{{ truck.truck_id }}">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editTruckModal{{ truck.truck_id }}">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteTruckModal{{ truck.truck_id }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-truck fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">No active trucks found</h5>
+                    <a href="{{ url_for('business.add_truck') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Your First Truck
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(135deg, var(--ice-cream-vanilla) 0%, #ffffff 50%, var(--ice-cream-cream) 100%);
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, var(--ice-cream-pink), var(--ice-cream-lavender));
+    }
+
+    .btn-success {
+        background: linear-gradient(45deg, var(--ice-cream-mint), var(--ice-cream-peach));
+    }
+
+    .btn-warning {
+        background: linear-gradient(45deg, var(--ice-cream-peach), var(--ice-cream-strawberry));
+    }
+
+    .btn-info {
+        background: linear-gradient(45deg, var(--ice-cream-lavender), var(--ice-cream-mint));
+    }
+</style>
+
+<!-- View, Edit and Delete Modals for Active Trucks -->
+{% if active_trucks %}
+{% for truck in active_trucks %}
+<!-- View Truck Modal -->
+<div class="modal fade" id="viewTruckModal{{ truck.truck_id }}" tabindex="-1" aria-labelledby="viewTruckModalLabel{{ truck.truck_id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewTruckModalLabel{{ truck.truck_id }}">
+                    <i class="fas fa-ice-cream me-2"></i>{{ truck.truck_name }} Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-truck fa-3x text-primary mb-3"></i>
+                                <h4>{{ truck.truck_name }}</h4>
+                                <p class="text-muted">{{ truck.truck_color }} Ice Cream Truck</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong><i class="fas fa-user me-2"></i>Driver:</strong>
+                        <p class="mb-0">{{ truck.driver_name }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong><i class="fas fa-phone me-2"></i>Phone:</strong>
+                        <p class="mb-0">{{ truck.phone_number or 'Not provided' }}</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong><i class="fas fa-id-card me-2"></i>License Plate:</strong>
+                        <p class="mb-0"><code>{{ truck.license_plate }}</code></p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong><i class="fas fa-tachometer-alt me-2"></i>Capacity:</strong>
+                        <p class="mb-0">{{ truck.capacity_gallons }} gallons</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <strong><i class="fas fa-map-marker-alt me-2"></i>Current Location:</strong>
+                        <p class="mb-0">{{ truck.current_location or 'Location not set' }}</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <strong><i class="fas fa-route me-2"></i>Route:</strong>
+                        <p class="mb-0">{{ truck.route_name or 'No route assigned' }}</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4 text-center">
+                        <div class="p-3 bg-light rounded">
+                            <i class="fas fa-ice-cream fa-2x text-primary"></i>
+                            <h5 class="mt-2">{{ truck.products_count }}</h5>
+                            <small class="text-muted">Products</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="p-3 bg-light rounded">
+                            <i class="fas fa-dollar-sign fa-2x text-success"></i>
+                            <h5 class="mt-2">${{ "%.2f"|format(truck.today_revenue) }}</h5>
+                            <small class="text-muted">Today's Revenue</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="p-3 bg-light rounded">
+                            <i class="fas fa-star fa-2x text-warning"></i>
+                            <h5 class="mt-2">N/A</h5>
+                            <small class="text-muted">Rating</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
+                            <span>
+                                <strong>Status:</strong>
+                                <span class="badge bg-{{ 'success' if truck.is_operational else 'danger' }} ms-2">
+                                    {{ 'Operational' if truck.is_operational else 'Out of Service' }}
+                                </span>
+                            </span>
+                            {% if truck.last_maintenance_date %}
+                            <small class="text-muted">
+                                Last Maintenance: {{ truck.last_maintenance_date }}
+                            </small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#editTruckModal{{ truck.truck_id }}">
+                    <i class="fas fa-edit"></i> Edit Truck
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Truck Modal -->
+<div class="modal fade" id="editTruckModal{{ truck.truck_id }}" tabindex="-1" aria-labelledby="editTruckModalLabel{{ truck.truck_id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTruckModalLabel{{ truck.truck_id }}">
+                    <i class="fas fa-edit me-2"></i>Edit {{ truck.truck_name }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{{ url_for('business.update_truck', truck_id=truck.truck_id) }}">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="truck_name" class="form-label">Truck Name</label>
+                            <input type="text" class="form-control" name="truck_name" value="{{ truck.truck_name }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="truck_color" class="form-label">Truck Color</label>
+                            <input type="text" class="form-control" name="truck_color" value="{{ truck.truck_color }}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="license_plate" class="form-label">License Plate</label>
+                            <input type="text" class="form-control" name="license_plate" value="{{ truck.license_plate }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="driver_name" class="form-label">Driver Name</label>
+                            <input type="text" class="form-control" name="driver_name" value="{{ truck.driver_name }}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="phone_number" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" name="phone_number" value="{{ truck.phone_number }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="capacity_gallons" class="form-label">Capacity (Gallons)</label>
+                            <input type="number" class="form-control" name="capacity_gallons" value="{{ truck.capacity_gallons }}" min="1" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="current_location" class="form-label">Current Location</label>
+                        <input type="text" class="form-control" name="current_location" value="{{ truck.current_location }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="route_name" class="form-label">Route Name</label>
+                        <input type="text" class="form-control" name="route_name" value="{{ truck.route_name }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Truck Modal -->
+<div class="modal fade" id="deleteTruckModal{{ truck.truck_id }}" tabindex="-1" aria-labelledby="deleteTruckModalLabel{{ truck.truck_id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteTruckModalLabel{{ truck.truck_id }}">
+                    <i class="fas fa-trash me-2"></i>Delete Ice Cream Truck
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ truck.truck_name }}</strong>?</p>
+                <p class="text-muted">This action cannot be undone and will remove all associated data.</p>
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="{{ url_for('business.delete_truck', truck_id=truck.truck_id) }}">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete Truck</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
+{% endblock %}
