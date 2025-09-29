@@ -76,7 +76,7 @@ def show_trucks():
                   current_location, route_name, capacity_gallons))
             db.commit()
             flash('Ice cream truck added successfully!', 'success')
-            return redirect(url_for('icecream.show_trucks'))
+            return redirect(url_for('business.show_trucks'))
         except Exception as e:
             flash(f'Error adding truck: {str(e)}', 'error')
 
@@ -120,7 +120,7 @@ def add_truck():
                   current_location, route_name, capacity_gallons))
             db.commit()
             flash('Ice cream truck added successfully!', 'success')
-            return redirect(url_for('icecream.show_trucks'))
+            return redirect(url_for('business.show_trucks'))
         except Exception as e:
             flash(f'Error adding truck: {str(e)}', 'error')
 
@@ -153,7 +153,7 @@ def update_truck(truck_id):
     except Exception as e:
         flash(f'Error updating truck: {str(e)}', 'error')
 
-    return redirect(url_for('icecream.show_trucks'))
+    return redirect(url_for('business.show_trucks'))
 
 @business.route('/trucks/delete/<int:truck_id>', methods=['POST'])
 def delete_truck(truck_id):
@@ -167,7 +167,7 @@ def delete_truck(truck_id):
     except Exception as e:
         flash(f'Error deleting truck: {str(e)}', 'error')
 
-    return redirect(url_for('icecream.show_trucks'))
+    return redirect(url_for('business.show_trucks'))
 
 @business.route('/trucks/<int:truck_id>')
 def truck_details(truck_id):
@@ -179,7 +179,7 @@ def truck_details(truck_id):
 
     if not truck:
         flash('Ice cream truck not found', 'error')
-        return redirect(url_for('icecream.show_trucks'))
+        return redirect(url_for('business.show_trucks'))
 
     cursor.execute('''
         SELECT ti.*, icp.product_name, icp.product_type, icp.flavor, icp.price
@@ -279,7 +279,7 @@ def add_product():
                   contains_nuts, contains_dairy, is_sugar_free, seasonal))
             db.commit()
             flash('Ice cream product added successfully!', 'success')
-            return redirect(url_for('icecream.show_products'))
+            return redirect(url_for('business.show_products'))
         except Exception as e:
             flash(f'Error adding product: {str(e)}', 'error')
 
@@ -332,7 +332,7 @@ def order_details(order_id):
 
     if not order:
         flash('Order not found', 'error')
-        return redirect(url_for('icecream.show_orders'))
+        return redirect(url_for('business.show_orders'))
 
     cursor.execute('''
         SELECT icoi.*, icp.product_name, icp.flavor, icp.product_type
